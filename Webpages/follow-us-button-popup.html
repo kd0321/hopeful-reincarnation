@@ -1,0 +1,308 @@
+<!-- SUBSCRIBE BUTTON + POPUP -->
+<div class="hr-subscribe" id="hrSubscribe">
+  <button
+    class="hr-subscribe-button"
+    id="hrSubscribeButton"
+    type="button"
+    aria-expanded="false"
+    aria-controls="hrSubscribePopup"
+    aria-haspopup="dialog"
+  >
+    Subscribe
+  </button>
+
+  <section
+    class="hr-subscribe-popup"
+    id="hrSubscribePopup"
+    role="dialog"
+    aria-labelledby="hrSubscribeTitle"
+    aria-describedby="hrSubscribeDescription"
+    hidden
+  >
+    <button
+      class="hr-popup-close"
+      id="hrSubscribeClose"
+      type="button"
+      aria-label="Close subscription popup"
+    >
+      &times;
+    </button>
+
+    <h2 id="hrSubscribeTitle">Subscribe</h2>
+
+    <p class="hr-popup-brand">
+      Hopeful Reincarnation
+    </p>
+
+    <div class="hr-popup-divider" aria-hidden="true"></div>
+
+    <p class="hr-popup-description" id="hrSubscribeDescription">
+      Your next adventure awaits.
+    </p>
+
+    <!-- Replace this with your actual Payhip subscription URL. -->
+    <a
+      class="hr-checkout-button"
+      href="YOUR_PAYHIP_SUBSCRIPTION_URL"
+    >
+      Continue to checkout
+    </a>
+
+    <p class="hr-popup-note">
+      Review subscription details at checkout.
+    </p>
+  </section>
+</div>
+
+<style>
+  /* Container keeps the popup directly beneath Subscribe. */
+  .hr-subscribe {
+    position: relative;
+    display: inline-block;
+    font-family: Georgia, "Times New Roman", serif;
+    text-align: left;
+    overflow: visible;
+  }
+
+  .hr-subscribe,
+  .hr-subscribe * {
+    box-sizing: border-box;
+  }
+
+  /* Top Subscribe button */
+  .hr-subscribe-button {
+    padding: 5px 19px;
+    border: 4px double #856126;
+    border-radius: 10px;
+    background: linear-gradient(#fffdf6, #f8efdf);
+    color: #15120e;
+    font-family: inherit;
+    font-size: 22px;
+    line-height: 1.15;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 2px #fffaf0;
+  }
+
+  .hr-subscribe-button:hover {
+    background: #f4e5cc;
+  }
+
+  /* Popup card */
+  .hr-subscribe-popup {
+    position: absolute;
+    top: calc(100% + 15px);
+    left: 0;
+    z-index: 1000;
+
+    width: min(320px, calc(100vw - 32px));
+    padding: 18px 17px 16px 24px;
+
+    border: 1px solid #95794e;
+    border-left: 9px solid #07542b;
+    border-radius: 13px;
+
+    background:
+      radial-gradient(
+        ellipse at top left,
+        rgba(232, 208, 166, 0.2),
+        transparent 70%
+      ),
+      #fffaf0;
+
+    color: #15120e;
+    box-shadow:
+      0 12px 26px rgba(39, 27, 10, 0.25),
+      inset 0 0 18px rgba(168, 128, 62, 0.07);
+
+    animation: hr-popup-appear 160ms ease-out;
+  }
+
+  .hr-subscribe-popup[hidden] {
+    display: none;
+  }
+
+  /* Small pointer above the popup */
+  .hr-subscribe-popup::before {
+    content: "";
+    position: absolute;
+    top: -9px;
+    left: 35px;
+    width: 16px;
+    height: 16px;
+    background: #fffaf0;
+    border-top: 1px solid #95794e;
+    border-left: 1px solid #95794e;
+    transform: rotate(45deg);
+  }
+
+  /* Close X */
+  .hr-popup-close {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 0;
+    border-radius: 5px;
+    background: transparent;
+    color: #15120e;
+    font-family: Arial, sans-serif;
+    font-size: 32px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .hr-popup-close:hover {
+    background: rgba(133, 97, 38, 0.1);
+  }
+
+  .hr-subscribe-popup h2 {
+    margin: 0;
+    padding-right: 24px;
+    color: #0c0c09;
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .hr-popup-brand {
+    margin: 3px 0 0;
+    font-size: 23px;
+    font-style: italic;
+    line-height: 1.25;
+  }
+
+  .hr-popup-divider {
+    height: 1px;
+    margin: 16px 0;
+    background: #977239;
+  }
+
+  .hr-popup-description {
+    margin: 0 0 21px;
+    font-size: 22px;
+    line-height: 1.35;
+  }
+
+  /* Green checkout button */
+  .hr-checkout-button {
+    display: block;
+    width: 100%;
+    padding: 10px 8px;
+    border: 1px solid #07502a;
+    border-radius: 9px;
+    background: linear-gradient(
+      180deg,
+      #08652f 0%,
+      #00461f 100%
+    );
+    color: #fffaf0;
+    font-size: 24px;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15);
+  }
+
+  .hr-checkout-button:hover {
+    background: linear-gradient(#087537, #005428);
+  }
+
+  .hr-popup-note {
+    margin: 13px 0 0;
+    font-size: 15px;
+    font-style: italic;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  .hr-subscribe-button:focus-visible,
+  .hr-popup-close:focus-visible,
+  .hr-checkout-button:focus-visible {
+    outline: 3px solid #a77b30;
+    outline-offset: 4px;
+  }
+
+  @keyframes hr-popup-appear {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hr-subscribe-popup {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  (() => {
+    const container = document.getElementById("hrSubscribe");
+    const subscribeButton = document.getElementById("hrSubscribeButton");
+    const popup = document.getElementById("hrSubscribePopup");
+    const closeButton = document.getElementById("hrSubscribeClose");
+
+    function openPopup() {
+      popup.hidden = false;
+      subscribeButton.setAttribute("aria-expanded", "true");
+      closeButton.focus();
+    }
+
+    function closePopup(restoreFocus = false) {
+      popup.hidden = true;
+      subscribeButton.setAttribute("aria-expanded", "false");
+
+      if (restoreFocus) {
+        subscribeButton.focus();
+      }
+    }
+
+    // Click Subscribe to open or close the popup.
+    subscribeButton.addEventListener("click", () => {
+      if (popup.hidden) {
+        openPopup();
+      } else {
+        closePopup(true);
+      }
+    });
+
+    // Click X to close.
+    closeButton.addEventListener("click", () => {
+      closePopup(true);
+    });
+
+    // Click anywhere outside the component to close.
+    document.addEventListener("click", (event) => {
+      if (!popup.hidden && !container.contains(event.target)) {
+        closePopup();
+      }
+    });
+
+    // Press Escape to close.
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !popup.hidden) {
+        event.preventDefault();
+        closePopup(true);
+      }
+    });
+
+    // Close when keyboard focus moves outside the component.
+    container.addEventListener("focusout", (event) => {
+      if (
+        event.relatedTarget &&
+        !container.contains(event.relatedTarget)
+      ) {
+        closePopup();
+      }
+    });
+  })();
+</script>
