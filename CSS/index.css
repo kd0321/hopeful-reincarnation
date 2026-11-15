@@ -322,4 +322,15 @@ dialog .tabs button { padding: 9px; background: var(--green); color: white; }
   .book-right i { font-size: 20px; }
   .wave { font-size: 32px; }
   .chapter-card { flex-basis: 85%; }
+
+#popup-container {
+  position: absolute;
+  z-index: 9999;
+  display: none;
+}
+
+#popup-container .subscribe-popup {
+  margin: 0;
+}
+
 }
