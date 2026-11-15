@@ -1,3 +1,4 @@
+
 document.querySelectorAll("[data-modal]").forEach(button => {
   button.addEventListener("click", async () => {
     const file = button.dataset.modal === "subscribe"
