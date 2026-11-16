@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +6,6 @@
 <title>Store | Hopeful Reincarnation</title>
 <link rel="stylesheet" href="../CSS/store-checkout.css">
 <style>
-/* Display actual product images */
 .artwork, .thumb, .chapter-cover, .dragon-emblem {
   background-image: none !important;
   overflow: hidden;
@@ -31,11 +29,7 @@
 <body>
 
 <div class="store-page">
-
-  <!-- HOME BUTTON -->
-  <a href="../index.html" class="home-button">
-    ⌂ Home
-  </a>
+  <a href="../index.html" class="home-button">⌂ Home</a>
 
   <header class="store-header">
     <div class="floral">❧ ───── ✥ ───── ❧</div>
@@ -47,15 +41,19 @@
     <main class="products">
 
       <!-- FANTASY TEES -->
-      <section class="product-panel tees-panel">
+      <section class="product-panel tees-panel" data-panel="tees">
         <h2><span>❧</span> Fantasy Tees <span>❧</span></h2>
 
         <div class="product-showcase">
-          <button class="arrow prev" type="button" aria-label="Previous tee">❮</button>
+          <button class="arrow prev" type="button"
+            aria-label="Previous tee">❮</button>
+
           <div class="artwork tee-image">
             <img src="../Images/tees/tees.png" alt="Fantasy Tee">
           </div>
-          <button class="arrow next" type="button" aria-label="Next tee">❯</button>
+
+          <button class="arrow next" type="button"
+            aria-label="Next tee">❯</button>
         </div>
 
         <div class="product-footer">
@@ -78,30 +76,40 @@
       </section>
 
       <!-- WALLPAPERS -->
-      <section class="product-panel wallpaper-panel">
+      <section class="product-panel wallpaper-panel"
+        data-panel="wallpapers">
         <h2><span>❧</span> Wallpapers <span>❧</span></h2>
 
         <div class="product-showcase">
-          <button class="arrow prev" type="button" aria-label="Previous wallpaper">❮</button>
+          <button class="arrow prev" type="button"
+            aria-label="Previous wallpaper">❮</button>
+
           <div class="artwork wallpaper-image">
-            <img src="../Images/wallpapers/wallpapers.png" alt="Fantasy Wallpaper">
+            <img src="../Images/wallpapers/wallpapers.png"
+              alt="Fantasy Wallpaper">
           </div>
-          <button class="arrow next" type="button" aria-label="Next wallpaper">❯</button>
+
+          <button class="arrow next" type="button"
+            aria-label="Next wallpaper">❯</button>
         </div>
 
         <div class="product-footer">
           <div class="thumbnails">
             <div class="thumb wallpaper-thumb-one selected">
-              <img src="../Images/wallpapers/wallpaper1.png" alt="Wallpaper 1">
+              <img src="../Images/wallpapers/wallpaper1.png"
+                alt="Wallpaper 1">
             </div>
             <div class="thumb wallpaper-thumb-two">
-              <img src="../Images/wallpapers/wallpaper2.png" alt="Wallpaper 2">
+              <img src="../Images/wallpapers/wallpaper2.png"
+                alt="Wallpaper 2">
             </div>
             <div class="thumb wallpaper-thumb-three">
-              <img src="../Images/wallpapers/wallpaper3.png" alt="Wallpaper 3">
+              <img src="../Images/wallpapers/wallpaper3.png"
+                alt="Wallpaper 3">
             </div>
             <div class="thumb wallpaper-thumb-four">
-              <img src="../Images/wallpapers/wallpaper4.png" alt="Wallpaper 4">
+              <img src="../Images/wallpapers/wallpaper4.png"
+                alt="Wallpaper 4">
             </div>
           </div>
           <a href="#" class="green-button">Shop Wallpapers ❯</a>
@@ -109,18 +117,21 @@
       </section>
 
       <!-- SHOP CHAPTERS -->
-      <section class="product-panel chapters-panel">
+      <section class="product-panel chapters-panel"
+        data-panel="chapters">
         <div class="chapter-heading">
           <h2>❧ Shop Chapters ❧</h2>
           <span class="price-tag">$5.99 each</span>
         </div>
 
         <div class="chapters-gallery">
-          <button class="arrow" type="button" aria-label="Previous chapters">❮</button>
+          <button class="arrow" type="button"
+            aria-label="Previous chapters">❮</button>
 
           <article class="chapter-item">
             <div class="chapter-cover cover-one">
-              <img src="../Images/chapters/chapter1.png" alt="Chapter 1">
+              <img src="../Images/chapters/chapter1.png"
+                alt="Chapter 1">
             </div>
             <div class="chapter-actions">
               <button class="cream-button" type="button">Preview</button>
@@ -130,7 +141,8 @@
 
           <article class="chapter-item">
             <div class="chapter-cover cover-two">
-              <img src="../Images/chapters/chapter2.png" alt="Chapter 2">
+              <img src="../Images/chapters/chapter2.png"
+                alt="Chapter 2">
             </div>
             <div class="chapter-actions">
               <button class="cream-button" type="button">Preview</button>
@@ -140,7 +152,8 @@
 
           <article class="chapter-item">
             <div class="chapter-cover cover-three">
-              <img src="../Images/chapters/chapter3.png" alt="Chapter 3">
+              <img src="../Images/chapters/chapter3.png"
+                alt="Chapter 3">
             </div>
             <div class="chapter-actions">
               <button class="cream-button" type="button">Preview</button>
@@ -148,7 +161,8 @@
             </div>
           </article>
 
-          <button class="arrow" type="button" aria-label="Next chapters">❯</button>
+          <button class="arrow" type="button"
+            aria-label="Next chapters">❯</button>
         </div>
 
         <div class="page-dots">
@@ -161,8 +175,9 @@
       </section>
 
       <!-- MEMBERSHIP -->
-      <section class="product-panel membership-panel">
-        <div class="membership-check">✓</div>
+      <section class="product-panel membership-panel"
+        data-panel="membership">
+        <div class="membership-check" aria-hidden="true">✓</div>
         <h2>Membership</h2>
         <div class="gold-divider">────── ❖ ──────</div>
         <div class="wave-decoration">❧ ≋ ❧</div>
@@ -189,9 +204,9 @@
 
     <!-- RIGHT CHECKOUT PANEL -->
     <aside class="checkout-panel">
-
       <div class="dragon-emblem">
-        <img src="../Images/icons/dragon-emblem.png" alt="Hopeful Reincarnation Dragon">
+        <img src="../Images/icons/dragon-emblem.png"
+          alt="Hopeful Reincarnation Dragon">
       </div>
 
       <div class="checkout-heading">
@@ -200,16 +215,23 @@
         <span>────</span>
       </div>
 
-      <div class="selection-title">Monthly Membership</div>
-      <div class="selection-price">$9.99 / month</div>
+      <div class="selection-title" aria-live="polite">Your Cart</div>
+      <div class="selection-price" id="cartTotal">$0.00</div>
 
-      <div class="included-heading">
+      <div id="cartItems" class="cart-items" aria-live="polite">
+        <p>No items selected yet.</p>
+      </div>
+
+      <button id="clearCart" class="cream-button clear-cart"
+        type="button">Clear cart</button>
+
+      <div class="included-heading" hidden>
         <span>────</span>
         <h3>What's included</h3>
         <span>────</span>
       </div>
 
-      <div class="checkout-benefits">
+      <div class="checkout-benefits" hidden>
         <div class="checkout-benefit">
           <span>♧</span>
           <p>Read all released chapters while subscribed</p>
@@ -224,20 +246,117 @@
         </div>
       </div>
 
-      <p class="renewal">Renews monthly. Cancel anytime.</p>
+      <p class="renewal" hidden>
+        Renews monthly. Cancel anytime.
+      </p>
 
-      <label class="terms">
-        <input type="checkbox" id="termsCheckbox">
-        <span>I agree to the Terms and recurring billing</span>
-      </label>
+      <div class="terms-area">
+        <button type="button" class="terms-link" id="openTerms">
+          Read Terms and Conditions
+        </button>
 
-      <a href="#" class="payhip-button">Subscribe with Payhip</a>
+        <label class="terms">
+          <input type="checkbox" id="termsCheckbox" disabled>
+          <span>
+            I agree to the Terms and Conditions,
+            including recurring billing if I purchase a membership
+          </span>
+        </label>
+      </div>
 
-      <p class="secure-checkout">🔒 Secure checkout via Payhip</p>
+      <button type="button" class="payhip-button"
+        id="checkoutButton" disabled>
+        Checkout with Payhip
+      </button>
 
+      <p class="checkout-message" id="checkoutMessage"
+        role="status"></p>
+
+      <p class="secure-checkout">
+        🔒 Secure checkout via Payhip
+      </p>
     </aside>
   </div>
 </div>
+
+<!-- PRODUCT GALLERY POPUP -->
+<dialog id="galleryModal" class="store-modal gallery-modal"
+  aria-labelledby="galleryTitle">
+
+  <button class="modal-close" type="button"
+    data-close="galleryModal" aria-label="Close gallery">×</button>
+
+  <h2 id="galleryTitle">Product Gallery</h2>
+  <div id="galleryGrid" class="gallery-grid"></div>
+</dialog>
+
+<!-- TERMS POPUP -->
+<dialog id="termsModal" class="store-modal terms-modal"
+  aria-labelledby="termsTitle">
+
+  <button class="modal-close" type="button"
+    data-close="termsModal" aria-label="Close terms">×</button>
+
+  <h2 id="termsTitle">Terms and Conditions</h2>
+
+  <div id="termsScroll" class="terms-scroll" tabindex="0">
+    <p>
+      <strong>
+        Draft terms — replace with your finalized policy
+        before accepting payments.
+      </strong>
+    </p>
+
+    <h3>Purchases</h3>
+    <p>
+      Product descriptions, prices, delivery methods, and any
+      restrictions will be shown before purchase. Digital products
+      and physical merchandise may have different fulfillment
+      and refund conditions.
+    </p>
+
+    <h3>Membership</h3>
+    <p>
+      The membership is advertised at $9.99 per month.
+      It includes access to released chapters while subscribed,
+      one free wallpaper when joining, and a 5% discount
+      on tees while subscribed. A subscription renews monthly
+      until canceled.
+    </p>
+
+    <h3>Cancellation and billing</h3>
+    <p>
+      Customers must receive clear instructions for canceling
+      their subscriptions, including when cancellation takes effect.
+      The payment provider's actual billing terms must match
+      this description.
+    </p>
+
+    <h3>Delivery, refunds, and support</h3>
+    <p>
+      Insert your real digital delivery rules, shipping terms,
+      refund policy, customer service contact information,
+      and any applicable legal disclosures here.
+    </p>
+
+    <h3>Privacy</h3>
+    <p>
+      Insert your actual privacy policy and describe how
+      customer information is handled by your website
+      and payment provider.
+    </p>
+
+    <p>
+      <strong>End of terms.</strong>
+      Please review the entire document before acknowledging it.
+    </p>
+  </div>
+
+  <button id="acknowledgeTerms" type="button"
+    class="green-button acknowledge" disabled>
+    Scroll to the bottom to continue
+  </button>
+</dialog>
 
 <script src="../JS/store-checkout.js"></script>
 </body>

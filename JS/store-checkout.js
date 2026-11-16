@@ -1,245 +1,476 @@
-
 document.addEventListener("DOMContentLoaded", () => {
-  const $ = s => document.querySelector(s);
-  const $$ = s => [...document.querySelectorAll(s)];
+  const $ = (s, root = document) => root.querySelector(s);
+  const $$ = (s, root = document) =>
+    [...root.querySelectorAll(s)];
 
-  // REPLACE THESE WITH YOUR REAL PAYHIP LINKS
+  // ADD YOUR REAL PAYHIP URLS HERE
   const payhip = {
     membership: "",
-    tees: "",
-    wallpapers: "",
-    chapters: ["", "", ""]
+    tees: {},
+    wallpapers: {},
+    chapters: {}
   };
 
-  const checkout = $(".checkout-panel");
-  const title = $(".selection-title");
-  const price = $(".selection-price");
-  const payButton = $(".payhip-button");
-  const terms = $("#termsCheckbox");
+  // ADD TEE AND WALLPAPER PRICES WHEN READY
+  const prices = {
+    membership: 9.99,
+    chapters: 5.99,
+    tees: null,
+    wallpapers: null
+  };
 
-  let selection = {
-    type: "membership",
+  const cart = new Map();
+
+  const panels = {
+    tees: $(".tees-panel"),
+    wallpapers: $(".wallpaper-panel"),
+    chapters: $(".chapters-panel"),
+    membership: $(".membership-panel")
+  };
+
+  const cartItems = $("#cartItems");
+  const totalElement = $("#cartTotal");
+  const checkoutButton = $("#checkoutButton");
+  const message = $("#checkoutMessage");
+  const termsCheckbox = $("#termsCheckbox");
+
+  const money = n =>
+    n == null ? "Price at checkout" : `$${n.toFixed(2)}`;
+
+  // PRODUCT CATALOG
+  const products = {
+    tees: [1, 2, 3, 4].map(n => ({
+      id: `tee${n}`,
+      name: `Fantasy Tee ${n}`,
+      image: `../Images/tees/tee${n}.png`,
+      price: prices.tees,
+      url: payhip.tees[n] || "",
+      type: "tees"
+    })),
+
+    wallpapers: [1, 2, 3, 4].map(n => ({
+      id: `wallpaper${n}`,
+      name: `Wallpaper ${n}`,
+      image: `../Images/wallpapers/wallpaper${n}.png`,
+      price: prices.wallpapers,
+      url: payhip.wallpapers[n] || "",
+      type: "wallpapers"
+    }))
+  };
+
+  // CHAPTERS 1 THROUGH 200
+  const chapters = Array.from({ length: 200 }, (_, i) => {
+    const n = i + 1;
+
+    return {
+      id: `chapter${n}`,
+      name: `Chapter ${n}`,
+      image: `../Images/chapters/chapter${n}.png`,
+      price: prices.chapters,
+      url: payhip.chapters[n] || "",
+      type: "chapters",
+      released: n <= 3
+    };
+  });
+
+  const membership = {
+    id: "membership",
     name: "Monthly Membership",
-    price: "$9.99 / month",
-    url: payhip.membership
+    price: 9.99,
+    url: payhip.membership,
+    type: "membership"
   };
 
-  // UPDATE CHECKOUT PANEL
-  function updateCheckout(type, name, priceText, url) {
-    selection = { type, name, price: priceText, url };
-    title.textContent = name;
-    price.textContent = priceText;
+  // CART DISPLAY
+  function renderCart() {
+    cartItems.replaceChildren();
 
-    checkout.querySelector(".included-heading").hidden =
-      type !== "membership";
+    if (!cart.size) {
+      const p = document.createElement("p");
+      p.textContent = "No items selected yet.";
+      cartItems.append(p);
+    }
 
-    checkout.querySelector(".checkout-benefits").hidden =
-      type !== "membership";
+    for (const item of cart.values()) {
+      const row = document.createElement("div");
+      row.className = "cart-row";
 
-    checkout.querySelector(".renewal").hidden =
-      type !== "membership";
+      const label = document.createElement("span");
+      label.textContent = `${item.name} — ${money(item.price)}`;
 
-    terms.checked = false;
-    updateTerms();
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.textContent = "Remove";
+      remove.setAttribute("aria-label", `Remove ${item.name}`);
 
-    checkout.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest"
+      remove.addEventListener("click", () => toggleItem(item));
+
+      row.append(label, remove);
+      cartItems.append(row);
+    }
+
+    const allPriced = [...cart.values()].every(
+      item => item.price != null
+    );
+
+    totalElement.textContent = allPriced
+      ? money([...cart.values()].reduce(
+          (sum, item) => sum + item.price, 0
+        ))
+      : "Price at checkout";
+
+    // GREEN HIGHLIGHT FOR SELECTED PANELS
+    for (const [type, panel] of Object.entries(panels)) {
+      panel.classList.toggle(
+        "is-selected",
+        [...cart.values()].some(item => item.type === type)
+      );
+    }
+
+    $$(".chapter-item").forEach(card => {
+      const selected = cart.has(card.dataset.productId);
+      card.classList.toggle("is-selected", selected);
+
+      const button = $(".small-green", card);
+      if (button && !button.disabled) {
+        button.textContent = selected ? "Remove" : "Select";
+      }
     });
-  }
 
-  // TERMS AND CHECKOUT
-  function updateTerms() {
-    const allowed =
-      selection.type !== "membership" || terms.checked;
+    const hasMembership = cart.has("membership");
 
-    payButton.style.opacity = allowed ? "1" : ".5";
-    payButton.style.cursor = allowed ? "pointer" : "not-allowed";
+    $$(
+      ".included-heading, .checkout-benefits, .renewal"
+    ).forEach(el => {
+      el.hidden = !hasMembership;
+    });
 
-    payButton.textContent =
-      selection.type === "membership"
+    checkoutButton.textContent =
+      hasMembership && cart.size === 1
         ? "Subscribe with Payhip"
         : "Checkout with Payhip";
+
+    message.textContent = "";
+    updateCheckout();
   }
 
-  terms.addEventListener("change", updateTerms);
-
-  payButton.addEventListener("click", e => {
-    e.preventDefault();
-
-    if (selection.type === "membership" && !terms.checked) {
-      alert("Please agree to the Terms and recurring billing.");
-      return;
+  function toggleItem(item) {
+    if (cart.has(item.id)) {
+      cart.delete(item.id);
+    } else {
+      cart.set(item.id, item);
     }
 
-    if (!selection.url) {
-      alert("Payhip checkout link has not been added yet.");
-      return;
-    }
+    termsCheckbox.checked = false;
+    renderCart();
+  }
 
-    window.location.href = selection.url;
+  function updateCheckout() {
+    checkoutButton.disabled =
+      !cart.size || !termsCheckbox.checked;
+  }
+
+  termsCheckbox.addEventListener("change", updateCheckout);
+
+  $("#clearCart").addEventListener("click", () => {
+    cart.clear();
+    termsCheckbox.checked = false;
+    renderCart();
   });
 
   // MEMBERSHIP SELECTION
-  $(".membership-panel").addEventListener("click", () => {
-    updateCheckout(
-      "membership",
-      "Monthly Membership",
-      "$9.99 / month",
-      payhip.membership
-    );
+  panels.membership.addEventListener("click", event => {
+    if (event.target.closest("a,button,input")) return;
+    toggleItem(membership);
   });
 
-  // TEE AND WALLPAPER SLIDERS
-  const productData = {
-    tees: [
-      { position: "4% 30%", name: "Fantasy Tee 1" },
-      { position: "15% 30%", name: "Fantasy Tee 2" },
-      { position: "20% 35%", name: "Fantasy Tee 3" },
-      { position: "25% 35%", name: "Fantasy Tee 4" }
-    ],
-    wallpapers: [
-      { position: "51% 30%", name: "Wallpaper 1" },
-      { position: "57% 30%", name: "Wallpaper 2" },
-      { position: "62% 30%", name: "Wallpaper 3" },
-      { position: "67% 30%", name: "Wallpaper 4" }
-    ]
-  };
+  panels.membership.style.cursor = "pointer";
 
-  ["tees", "wallpapers"].forEach(type => {
-    const panel = $(`.${type === "tees"
-      ? "tees-panel" : "wallpaper-panel"}`);
+  // AUTOMATIC TEE AND WALLPAPER SLIDESHOWS
+  for (const type of ["tees", "wallpapers"]) {
+    const panel = panels[type];
+    const items = products[type];
+    const hero = $(".artwork img", panel);
+    const thumbs = $$(".thumb", panel);
 
-    const image = panel.querySelector(".artwork");
-    const thumbs = [...panel.querySelectorAll(".thumb")];
-    const items = productData[type];
-    let index = 0;
+    let current = 0;
+    let paused = false;
 
-    function showItem(i) {
-      index = (i + items.length) % items.length;
-      image.style.backgroundPosition = items[index].position;
+    function show(index) {
+      current = (index + items.length) % items.length;
 
-      thumbs.forEach((thumb, n) => {
-        thumb.classList.toggle("selected", n === index);
+      hero.src = items[current].image;
+      hero.alt = items[current].name;
+
+      thumbs.forEach((thumb, i) => {
+        thumb.classList.toggle("selected", i === current);
       });
     }
 
-    panel.querySelector(".prev").addEventListener("click", () => {
-      showItem(index - 1);
+    $(".prev", panel).addEventListener("click", () => {
+      paused = true;
+      show(current - 1);
     });
 
-    panel.querySelector(".next").addEventListener("click", () => {
-      showItem(index + 1);
+    $(".next", panel).addEventListener("click", () => {
+      paused = true;
+      show(current + 1);
     });
 
     thumbs.forEach((thumb, i) => {
-      thumb.style.cursor = "pointer";
-      thumb.addEventListener("click", () => showItem(i));
+      thumb.tabIndex = 0;
+      thumb.setAttribute("role", "button");
+      thumb.setAttribute("aria-label", `View ${items[i].name}`);
+
+      function choose() {
+        paused = true;
+        show(i);
+      }
+
+      thumb.addEventListener("click", choose);
+
+      thumb.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          choose();
+        }
+      });
     });
 
-    panel.querySelector(".green-button").addEventListener("click", e => {
-      e.preventDefault();
+    // CHANGE SLIDE EVERY 4 SECONDS
+    setInterval(() => {
+      if (
+        !paused &&
+        !document.hidden &&
+        !$("#galleryModal").open
+      ) {
+        show(current + 1);
+      }
+    }, 4000);
 
-      updateCheckout(
-        type,
-        items[index].name,
-        "View price at checkout",
-        payhip[type]
-      );
+    $(".green-button", panel).addEventListener("click", e => {
+      e.preventDefault();
+      openGallery(type);
+    });
+
+    show(0);
+  }
+
+  // PRODUCT GALLERY POPUPS
+  const galleryModal = $("#galleryModal");
+
+  function openGallery(type) {
+    $("#galleryTitle").textContent =
+      type === "tees"
+        ? "Shop Fantasy Tees"
+        : "Shop Wallpapers";
+
+    const grid = $("#galleryGrid");
+    grid.replaceChildren();
+
+    for (const item of products[type]) {
+      const card = document.createElement("div");
+      card.className = "gallery-card";
+
+      const img = document.createElement("img");
+      img.src = item.image;
+      img.alt = item.name;
+
+      const name = document.createElement("p");
+      name.textContent = item.name;
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = cart.has(item.id)
+        ? "Remove from cart"
+        : "Add to cart";
+
+      button.addEventListener("click", () => {
+        toggleItem(item);
+
+        button.textContent = cart.has(item.id)
+          ? "Remove from cart"
+          : "Add to cart";
+      });
+
+      card.append(img, name, button);
+      grid.append(card);
+    }
+
+    galleryModal.showModal();
+  }
+
+  // CLOSE POPUPS
+  $$("[data-close]").forEach(button => {
+    button.addEventListener("click", () => {
+      $(`#${button.dataset.close}`).close();
     });
   });
 
-  // CHAPTER SELECTION AND PREVIEW
-  const chapterPanel = $(".chapters-panel");
-  const chapterItems = $$(".chapter-item");
-  let chapterIndex = 0;
+  // CHAPTER CAROUSEL
+  const chapterGallery = $(".chapters-gallery");
+  const chapterArrows = $$(".arrow", chapterGallery);
+  const chapterCards = $$(".chapter-item", chapterGallery);
 
-  function showChapter(index) {
-    chapterIndex = (index + chapterItems.length)
-      % chapterItems.length;
+  let chapterStart = 0;
 
-    chapterItems.forEach((item, i) => {
-      item.style.display = i === chapterIndex
-        ? "" : "none";
+  const previewButtons = chapterCards.map(
+    card => $(".cream-button", card)
+  );
+
+  const selectButtons = chapterCards.map(
+    card => $(".small-green", card)
+  );
+
+  function renderChapters() {
+    chapterCards.forEach((card, slot) => {
+      const item = chapters[
+        (chapterStart + slot) % chapters.length
+      ];
+
+      card.dataset.productId = item.id;
+
+      const img = $(".chapter-cover img", card);
+      img.src = item.image;
+      img.alt = item.name;
+
+      img.onerror = () => {
+        img.onerror = null;
+        img.style.visibility = "hidden";
+      };
+
+      img.style.visibility = "visible";
+
+      previewButtons[slot].disabled = !item.released;
+      selectButtons[slot].disabled = !item.released;
+
+      selectButtons[slot].textContent = cart.has(item.id)
+        ? "Remove"
+        : "Select";
+
+      card.classList.toggle(
+        "is-selected",
+        cart.has(item.id)
+      );
+
+      previewButtons[slot].onclick = () => {
+        window.open(
+          `../index.html?chapter=${chapterStart + slot + 1}`,
+          "_blank",
+          "noopener"
+        );
+      };
+
+      selectButtons[slot].onclick = () => {
+        toggleItem(item);
+        renderChapters();
+      };
     });
 
-    const dots = $$(".page-dots span");
-    dots.forEach((dot, i) => {
-      dot.classList.toggle("active", i === chapterIndex);
+    $$(".page-dots span").forEach((dot, i) => {
+      dot.classList.toggle(
+        "active",
+        i === Math.floor(chapterStart / 3) % 5
+      );
     });
   }
 
-  // Keep three chapter covers visible initially.
-  // Arrows rotate their order.
-  const chapterGallery = $(".chapters-gallery");
-  const chapterArrows = chapterGallery.querySelectorAll(".arrow");
-
   chapterArrows[0].addEventListener("click", () => {
-    const items = [...chapterGallery.querySelectorAll(".chapter-item")];
-    chapterGallery.insertBefore(
-      items[items.length - 1], items[0]
-    );
+    chapterStart =
+      (chapterStart - 3 + chapters.length) % chapters.length;
+
+    renderChapters();
   });
 
   chapterArrows[1].addEventListener("click", () => {
-    const items = [...chapterGallery.querySelectorAll(".chapter-item")];
-    chapterGallery.insertBefore(
-      items[0], chapterArrows[1]
-    );
+    chapterStart = (chapterStart + 3) % chapters.length;
+    renderChapters();
   });
 
-  chapterItems.forEach((item, i) => {
-    const buttons = item.querySelectorAll("button");
-
-    // PREVIEW
-    buttons[0].addEventListener("click", () => {
-      const preview = window.open(
-        `../index.html?chapter=${i + 1}`,
-        "_blank"
-      );
-
-      if (!preview) {
-        alert("Please allow popups to preview chapters.");
-      }
-    });
-
-    // SELECT
-    buttons[1].addEventListener("click", () => {
-      chapterItems.forEach(ch => {
-        ch.style.outline = "none";
-      });
-
-      item.style.outline = "3px solid #00552b";
-
-      updateCheckout(
-        "chapter",
-        `Chapter ${i + 1}`,
-        "$5.99",
-        payhip.chapters[i]
-      );
-    });
-  });
-
-  // CHAPTER DOTS
   $$(".page-dots span").forEach((dot, i) => {
-    dot.style.cursor = "pointer";
-
     dot.addEventListener("click", () => {
-      const items = [...chapterGallery.querySelectorAll(".chapter-item")];
-
-      if (items.length) {
-        chapterGallery.insertBefore(
-          items[i % items.length],
-          chapterArrows[1]
-        );
-      }
-
-      $$(".page-dots span").forEach((d, n) => {
-        d.classList.toggle("active", n === i);
-      });
+      chapterStart = i * 3;
+      renderChapters();
     });
   });
 
-  // INITIAL CHECKOUT STATE
-  updateTerms();
+  // TERMS AND CONDITIONS
+  const termsModal = $("#termsModal");
+  const termsScroll = $("#termsScroll");
+  const acknowledge = $("#acknowledgeTerms");
+
+  let acknowledged = false;
+
+  $("#openTerms").addEventListener("click", () => {
+    termsModal.showModal();
+  });
+
+  function checkScroll() {
+    const reachedBottom =
+      termsScroll.scrollTop + termsScroll.clientHeight >=
+      termsScroll.scrollHeight - 5;
+
+    if (reachedBottom) {
+      acknowledge.disabled = false;
+      acknowledge.textContent = "I have read the Terms";
+    }
+  }
+
+  termsScroll.addEventListener("scroll", checkScroll);
+
+  acknowledge.addEventListener("click", () => {
+    if (acknowledge.disabled) return;
+
+    acknowledged = true;
+    termsCheckbox.disabled = false;
+    termsModal.close();
+    termsCheckbox.focus();
+  });
+
+  // PAYHIP CHECKOUT
+  checkoutButton.addEventListener("click", () => {
+    if (
+      !cart.size ||
+      !termsCheckbox.checked ||
+      !acknowledged
+    ) return;
+
+    const items = [...cart.values()];
+
+    // MIXED CART REQUIRES A REAL PAYHIP INTEGRATION
+    if (items.length > 1) {
+      message.textContent =
+        "Multiple-product Payhip checkout is not configured yet.";
+      return;
+    }
+
+    if (!items[0].url) {
+      message.textContent =
+        `Add the Payhip checkout URL for ${items[0].name} first.`;
+      return;
+    }
+
+    window.location.assign(items[0].url);
+  });
+
+  // READ HOMEPAGE PRODUCT SELECTION
+  const params = new URLSearchParams(location.search);
+  const category = params.get("category");
+
+  if (category === "membership") {
+    cart.set(membership.id, membership);
+  }
+
+  if (category === "chapters") {
+    const number = Number(params.get("chapter"));
+    const item = chapters[number - 1];
+
+    if (item?.released) {
+      cart.set(item.id, item);
+      chapterStart = Math.floor((number - 1) / 3) * 3;
+    }
+  }
+
+  renderCart();
+  renderChapters();
 });

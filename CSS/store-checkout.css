@@ -1,4 +1,3 @@
-
 :root {
   --green: #00552b;
   --dark-green: #003c20;
@@ -619,4 +618,260 @@ button { cursor: pointer; }
     margin-bottom: 12px;
     font-size: 17px;
   }
+}
+
+
+/* =========================================
+   INTERACTIVE STORE FEATURES
+   ========================================= */
+
+/* SELECTED PRODUCT PANELS */
+.product-panel {
+  transition: border-color .18s, box-shadow .18s;
+}
+
+.product-panel.is-selected {
+  border-color: #007b3d;
+  box-shadow:
+    0 0 0 2px #008244,
+    0 3px 6px #0002;
+}
+
+/* HIDE CHECKMARK UNTIL SELECTED */
+.product-panel:not(.is-selected) .membership-check {
+  display: none;
+}
+
+.product-panel.is-selected::after {
+  content: "✓";
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #007b3d;
+  color: white;
+  font-size: 20px;
+  right: 5px;
+  top: 5px;
+  bottom: auto;
+  transform: none;
+}
+
+.membership-panel:not(.is-selected) {
+  border-color: var(--gold);
+}
+
+.membership-panel.is-selected::after {
+  display: none;
+}
+
+/* PRODUCT THUMBNAILS */
+.thumb {
+  cursor: pointer;
+}
+
+.thumb img,
+.chapter-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.artwork img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* SELECTED CHAPTERS */
+.chapter-item.is-selected .chapter-cover {
+  outline: 3px solid #008244;
+  outline-offset: 2px;
+}
+
+.chapter-item.is-selected .small-green {
+  background: #008244;
+}
+
+/* SHOPPING CART */
+.cart-items {
+  margin: 14px 0;
+  text-align: left;
+  max-height: 250px;
+  overflow: auto;
+}
+
+.cart-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 0;
+  border-bottom: 1px solid #c7a56d;
+  font-size: 17px;
+}
+
+.cart-row button {
+  border: 1px solid var(--gold);
+  background: #fff1d4;
+  border-radius: 5px;
+  padding: 3px 7px;
+  cursor: pointer;
+}
+
+.clear-cart {
+  padding: 7px 13px;
+  margin: 4px auto 12px;
+  cursor: pointer;
+}
+
+/* TERMS AND CONDITIONS */
+.terms-area {
+  margin-top: 18px;
+}
+
+.terms-link {
+  border: 0;
+  background: transparent;
+  color: #00552b;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 19px;
+}
+
+.terms input:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+/* PAYHIP BUTTON */
+.payhip-button {
+  width: 100%;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.payhip-button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.checkout-message {
+  font-size: 15px;
+  color: #5e351a;
+  min-height: 1.3em;
+}
+
+/* =========================================
+   POPUP GALLERIES
+   ========================================= */
+
+.store-modal {
+  width: min(750px, 94vw);
+  max-height: 90vh;
+  padding: 28px;
+  border: 6px double var(--gold);
+  border-radius: 18px;
+  background: radial-gradient(#fffdf4, #f7e6c7);
+  color: var(--ink);
+  font-family: Georgia, serif;
+  box-shadow: 0 15px 50px #0007;
+}
+
+.store-modal::backdrop {
+  background: #140e08a8;
+}
+
+.store-modal h2 {
+  margin: 0 40px 18px 0;
+  font-size: 32px;
+}
+
+.modal-close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  background: transparent;
+  border: 0;
+  font-size: 36px;
+  cursor: pointer;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(145px, 1fr));
+  gap: 14px;
+  max-height: 65vh;
+  overflow: auto;
+}
+
+.gallery-card {
+  border: 2px solid var(--gold);
+  border-radius: 9px;
+  padding: 8px;
+  background: #fff7e8;
+  text-align: center;
+}
+
+.gallery-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: contain;
+}
+
+.gallery-card button {
+  display: block;
+  margin: 8px auto 0;
+  padding: 7px 14px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--green);
+  color: white;
+  cursor: pointer;
+}
+
+/* =========================================
+   TERMS POPUP
+   ========================================= */
+
+.terms-scroll {
+  height: min(360px, 50vh);
+  overflow-y: auto;
+  border: 1px solid #b89a62;
+  background: #fff9ed;
+  padding: 15px;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.acknowledge {
+  display: block;
+  border: 0;
+  margin: 18px auto 0;
+  cursor: pointer;
+}
+
+.acknowledge:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+/* MOBILE */
+@media (max-width: 650px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .store-modal {
+    padding: 17px;
+  }
+}
+
+/* RESPECT HIDDEN ELEMENTS */
+[hidden] {
+  display: none !important;
 }
