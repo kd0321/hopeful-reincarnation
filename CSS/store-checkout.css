@@ -583,3 +583,40 @@ button { cursor: pointer; }
   height: 100%;
   object-fit: cover;
 }
+
+/* HOME BUTTON - TOP LEFT CORNER */
+.store-page {
+  position: relative;
+}
+
+.home-button {
+  position: absolute;
+  top: 15px;
+  left: 25px;
+  z-index: 100;
+  padding: 9px 20px;
+  border: 3px double #a37b2d;
+  border-radius: 10px;
+  background: linear-gradient(#fffdf6, #f8e8cc);
+  color: #003c20;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  text-decoration: none;
+  box-shadow: 0 3px 6px #0002;
+}
+
+.home-button:hover {
+  background: #00552b;
+  color: white;
+}
+
+@media (max-width: 650px) {
+  .home-button {
+    position: relative;
+    display: inline-block;
+    top: auto;
+    left: auto;
+    margin-bottom: 12px;
+    font-size: 17px;
+  }
+}
