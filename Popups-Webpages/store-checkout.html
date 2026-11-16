@@ -6,6 +6,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Store | Hopeful Reincarnation</title>
 <link rel="stylesheet" href="../CSS/store-checkout.css">
+<style>
+/* Display actual product images */
+.artwork, .thumb, .chapter-cover, .dragon-emblem {
+  background-image: none !important;
+  overflow: hidden;
+}
+.artwork img, .thumb img, .chapter-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.tee-image img, .wallpaper-image img {
+  object-fit: contain;
+}
+.dragon-emblem img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+</style>
 </head>
 <body>
 
@@ -18,8 +39,6 @@
   </header>
 
   <div class="store-layout">
-
-    <!-- LEFT PRODUCT AREA -->
     <main class="products">
 
       <!-- FANTASY TEES -->
@@ -27,23 +46,27 @@
         <h2><span>❧</span> Fantasy Tees <span>❧</span></h2>
 
         <div class="product-showcase">
-          <button class="arrow prev" type="button"
-                  aria-label="Previous tee">❮</button>
-
-          <div class="artwork tee-image"
-               role="img"
-               aria-label="Fantasy dragon t-shirts"></div>
-
-          <button class="arrow next" type="button"
-                  aria-label="Next tee">❯</button>
+          <button class="arrow prev" type="button" aria-label="Previous tee">❮</button>
+          <div class="artwork tee-image">
+            <img src="../Images/tees/tee1.png" alt="Fantasy Tee">
+          </div>
+          <button class="arrow next" type="button" aria-label="Next tee">❯</button>
         </div>
 
         <div class="product-footer">
           <div class="thumbnails">
-            <div class="thumb tee-thumb-one selected"></div>
-            <div class="thumb tee-thumb-two"></div>
-            <div class="thumb tee-thumb-three"></div>
-            <div class="thumb tee-thumb-four"></div>
+            <div class="thumb tee-thumb-one selected">
+              <img src="../Images/tees/tee1.png" alt="Tee 1">
+            </div>
+            <div class="thumb tee-thumb-two">
+              <img src="../Images/tees/tee2.png" alt="Tee 2">
+            </div>
+            <div class="thumb tee-thumb-three">
+              <img src="../Images/tees/tee3.png" alt="Tee 3">
+            </div>
+            <div class="thumb tee-thumb-four">
+              <img src="../Images/tees/tee4.png" alt="Tee 4">
+            </div>
           </div>
           <a href="#" class="green-button">Shop Tees ❯</a>
         </div>
@@ -54,29 +77,33 @@
         <h2><span>❧</span> Wallpapers <span>❧</span></h2>
 
         <div class="product-showcase">
-          <button class="arrow prev" type="button"
-                  aria-label="Previous wallpaper">❮</button>
-
-          <div class="artwork wallpaper-image"
-               role="img"
-               aria-label="Fantasy forest wallpaper"></div>
-
-          <button class="arrow next" type="button"
-                  aria-label="Next wallpaper">❯</button>
+          <button class="arrow prev" type="button" aria-label="Previous wallpaper">❮</button>
+          <div class="artwork wallpaper-image">
+            <img src="../Images/wallpapers/wallpaper1.png" alt="Fantasy Wallpaper">
+          </div>
+          <button class="arrow next" type="button" aria-label="Next wallpaper">❯</button>
         </div>
 
         <div class="product-footer">
           <div class="thumbnails">
-            <div class="thumb wallpaper-thumb-one selected"></div>
-            <div class="thumb wallpaper-thumb-two"></div>
-            <div class="thumb wallpaper-thumb-three"></div>
-            <div class="thumb wallpaper-thumb-four"></div>
+            <div class="thumb wallpaper-thumb-one selected">
+              <img src="../Images/wallpapers/wallpaper1.png" alt="Wallpaper 1">
+            </div>
+            <div class="thumb wallpaper-thumb-two">
+              <img src="../Images/wallpapers/wallpaper2.png" alt="Wallpaper 2">
+            </div>
+            <div class="thumb wallpaper-thumb-three">
+              <img src="../Images/wallpapers/wallpaper3.png" alt="Wallpaper 3">
+            </div>
+            <div class="thumb wallpaper-thumb-four">
+              <img src="../Images/wallpapers/wallpaper4.png" alt="Wallpaper 4">
+            </div>
           </div>
           <a href="#" class="green-button">Shop Wallpapers ❯</a>
         </div>
       </section>
 
-      <!-- CHAPTER STORE -->
+      <!-- SHOP CHAPTERS -->
       <section class="product-panel chapters-panel">
         <div class="chapter-heading">
           <h2>❧ Shop Chapters ❧</h2>
@@ -84,11 +111,12 @@
         </div>
 
         <div class="chapters-gallery">
-          <button class="arrow" type="button"
-                  aria-label="Previous chapters">❮</button>
+          <button class="arrow" type="button" aria-label="Previous chapters">❮</button>
 
           <article class="chapter-item">
-            <div class="chapter-cover cover-one"></div>
+            <div class="chapter-cover cover-one">
+              <img src="../Images/chapters/chapter1.png" alt="Chapter 1">
+            </div>
             <div class="chapter-actions">
               <button class="cream-button" type="button">Preview</button>
               <button class="small-green" type="button">Select</button>
@@ -96,7 +124,9 @@
           </article>
 
           <article class="chapter-item">
-            <div class="chapter-cover cover-two"></div>
+            <div class="chapter-cover cover-two">
+              <img src="../Images/chapters/chapter2.png" alt="Chapter 2">
+            </div>
             <div class="chapter-actions">
               <button class="cream-button" type="button">Preview</button>
               <button class="small-green" type="button">Select</button>
@@ -104,15 +134,16 @@
           </article>
 
           <article class="chapter-item">
-            <div class="chapter-cover cover-three"></div>
+            <div class="chapter-cover cover-three">
+              <img src="../Images/chapters/chapter3.png" alt="Chapter 3">
+            </div>
             <div class="chapter-actions">
               <button class="cream-button" type="button">Preview</button>
               <button class="small-green" type="button">Select</button>
             </div>
           </article>
 
-          <button class="arrow" type="button"
-                  aria-label="Next chapters">❯</button>
+          <button class="arrow" type="button" aria-label="Next chapters">❯</button>
         </div>
 
         <div class="page-dots">
@@ -138,12 +169,10 @@
             <span class="benefit-icon">♧</span>
             <p>Read all released chapters while subscribed</p>
           </div>
-
           <div class="benefit">
             <span class="benefit-icon">▧</span>
             <p>1 free wallpaper when you join</p>
           </div>
-
           <div class="benefit">
             <span class="benefit-icon">◇</span>
             <p>5% off tees while subscribed</p>
@@ -156,9 +185,9 @@
     <!-- RIGHT CHECKOUT PANEL -->
     <aside class="checkout-panel">
 
-      <div class="dragon-emblem"
-           role="img"
-           aria-label="Hopeful Reincarnation dragon emblem"></div>
+      <div class="dragon-emblem">
+        <img src="../Images/dragon-emblem.png" alt="Hopeful Reincarnation Dragon">
+      </div>
 
       <div class="checkout-heading">
         <span>────</span>
@@ -166,13 +195,8 @@
         <span>────</span>
       </div>
 
-      <div class="selection-title">
-        Monthly Membership
-      </div>
-
-      <div class="selection-price">
-        $9.99 / month
-      </div>
+      <div class="selection-title">Monthly Membership</div>
+      <div class="selection-price">$9.99 / month</div>
 
       <div class="included-heading">
         <span>────</span>
@@ -185,38 +209,31 @@
           <span>♧</span>
           <p>Read all released chapters while subscribed</p>
         </div>
-
         <div class="checkout-benefit">
           <span>▧</span>
           <p>1 free wallpaper when you join</p>
         </div>
-
         <div class="checkout-benefit">
           <span>◇</span>
           <p>5% off tees while subscribed</p>
         </div>
       </div>
 
-      <p class="renewal">
-        Renews monthly. Cancel anytime.
-      </p>
+      <p class="renewal">Renews monthly. Cancel anytime.</p>
 
       <label class="terms">
         <input type="checkbox" id="termsCheckbox">
         <span>I agree to the Terms and recurring billing</span>
       </label>
 
-      <a href="#" class="payhip-button">
-        Subscribe with Payhip
-      </a>
+      <a href="#" class="payhip-button">Subscribe with Payhip</a>
 
-      <p class="secure-checkout">
-        🔒 Secure checkout via Payhip
-      </p>
+      <p class="secure-checkout">🔒 Secure checkout via Payhip</p>
 
     </aside>
   </div>
 </div>
+
 <script src="../JS/store-checkout.js"></script>
 </body>
 </html>
